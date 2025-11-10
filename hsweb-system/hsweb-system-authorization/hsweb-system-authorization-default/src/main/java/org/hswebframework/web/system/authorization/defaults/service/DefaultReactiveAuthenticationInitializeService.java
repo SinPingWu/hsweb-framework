@@ -108,9 +108,10 @@ public class DefaultReactiveAuthenticationInitializeService
                 && properties.isDimensionEnabled(dimension.getType().getId()))
             .groupBy(d -> d.getType().getId(), Dimension::getId)
             .flatMap(group ->
-                         group.buffer(200)
-                              .sort()
-                              .concatMap(list -> findSettings(group.key(), list)));
+                         group
+                             .sort()
+                             .buffer(200)
+                             .concatMap(list -> findSettings(group.key(), list)));
     }
 
     protected Flux<AuthorizationSettingEntity> findSettings(String type, List<String> target) {
